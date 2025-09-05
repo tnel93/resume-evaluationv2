@@ -16,7 +16,7 @@ const commonSkills = [
   'Communication', 'Problem Solving', 'Team Leadership'
 ];
 
-export default function GapReport({ resumeText, jobDescription }: GapReportProps) {
+export default function GapReport({ resumeText, jobDescription, onProceedToRewriting }: GapReportProps) {
   const [jobDescInput, setJobDescInput] = useState(jobDescription || '');
   
   // Generate analysis based on resume text and job description
@@ -155,7 +155,12 @@ function getScoreMessage(score: number): string {
 
 // Mock function to generate analysis
 // In a real implementation, this would use NLP and more sophisticated algorithms
-function generateAnalysis(resumeText: string, jobDescription: string) {
+function generateAnalysis(resumeText: string, jobDescription: string): {
+  overallScore: number;
+  presentKeywords: string[];
+  missingKeywords: string[];
+  recommendations: string[];
+} {
   // Convert texts to lowercase for case-insensitive matching
   const resumeLower = resumeText.toLowerCase();
   
@@ -192,7 +197,7 @@ function generateAnalysis(resumeText: string, jobDescription: string) {
     : 50; // Default score if no keywords to check
   
   // Generate recommendations
-  const recommendations = [];
+  const recommendations: string[] = [];
   
   if (missingKeywords.length > 0) {
     recommendations.push(`Add these missing keywords to your resume: ${missingKeywords.join(', ')}.`);
